@@ -6,4 +6,3 @@ node_modules/
 coverage/
 .scannerwork/
 downloads/
-docker/api.env
