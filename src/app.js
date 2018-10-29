@@ -30,7 +30,6 @@ const dataHandler = (messageSet, topic, partition) => Promise.each(messageSet, (
   logger.info(`Handle Kafka event message; Topic: ${topic}; Partition: ${partition}; Offset: ${
     m.offset}; Message: ${message}.`)
   let messageJSON
-
   try {
     messageJSON = JSON.parse(message)
   } catch (e) {
@@ -46,8 +45,8 @@ const dataHandler = (messageSet, topic, partition) => Promise.each(messageSet, (
     return
   }
 
-  if (messageJSON.payload.resource !== 'submission') {
-    logger.debug(`Ignoring Non submission payloads from topic ${messageJSON.topic}.`)
+  if (messageJSON.payload.resource !== 'review') {
+    logger.debug(`Ignoring Non review payloads from topic ${messageJSON.topic}.`)
     // ignore the message
     return
   }
