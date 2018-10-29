@@ -18,6 +18,9 @@ const m2m = m2mAuth(_.pick(config, ['AUTH0_URL', 'AUTH0_AUDIENCE', 'TOKEN_CACHE_
 AWS.config.region = config.REGION
 const s3 = new AWS.S3()
 
+// Variable to cache reviewTypes from Submission API
+const reviewTypes = {}
+
 /**
  * Wrap async function to standard express function
  * @param {Function} fn the async function
@@ -56,20 +59,6 @@ const getM2Mtoken = async () => {
   return m2m.getMachineToken(config.AUTH0_CLIENT_ID, config.AUTH0_CLIENT_SECRET)
 }
 
-/*
- * POST the review payload to Submission API
- * @param {Object} body Request body
- * @returns {Promise}
- */
-const postReview = async (body) => {
-  const token = await getM2Mtoken()
-  return request
-    .post(`${config.SUBMISSION_API_URL}/reviews`)
-    .set('Authorization', `Bearer ${token}`)
-    .set('Content-Type', 'application/json')
-    .send(body)
-}
-
 /**
  * Function to download file from given URL
  * @param {String} fileURL URL of the file to be downloaded
@@ -90,9 +79,75 @@ const downloadFile = async (fileURL, unzipPath) => {
   }
 }
 
+/*
+ * Function to get reviewTypeId from Name
+ * @param {String} reviewTypeName Name of the reviewType
+ * @returns {String} reviewTypeId
+ */
+const getreviewTypeId = async (reviewTypeName) => {
+  if (!reviewTypes[reviewTypeName]) {
+    // Get review type id from Submission API
+    const response = await reqToSubmissionAPI('GET',
+      `${config.SUBMISSION_API_URL}/reviewTypes?name=${reviewTypeName}`, {})
+    if (response.length !== 0) {
+      reviewTypes[reviewTypeName] = response[0].id
+    } else {
+      reviewTypes[reviewTypeName] = null
+    }
+  }
+  return reviewTypes[reviewTypeName]
+}
+
+/**
+ * Function to send request to Submission API
+ * @param {String} reqType Type of the request POST / PATCH
+ * @param (String) path Complete path of the Submission API URL
+ * @param {Object} reqBody Body of the request
+ * @returns {Promise}
+ */
+const reqToSubmissionAPI = async (reqType, path, reqBody) => {
+  // Token necessary to send request to Submission API
+  const token = await getM2Mtoken()
+
+  if (reqType === 'POST') {
+    // Post the request body to Submission API
+    await request
+      .post(path)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+      .send(reqBody)
+  } else if (reqType === 'PUT') {
+    // Put the request body to Submission API
+    await request
+      .put(path)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+      .send(reqBody)
+  } else if (reqType === 'PATCH') {
+    // Patch the request body to Submission API
+    await request
+      .post(path)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+      .send(reqBody)
+  } else if (reqType === 'GET') {
+    // GET the requested URL from Submission API
+    const response = await request
+      .get(path)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+    if (response.body) {
+      return response.body
+    } else {
+      return null
+    }
+  }
+}
+
 module.exports = {
   wrapExpress,
   autoWrapExpress,
-  postReview,
-  downloadFile
+  downloadFile,
+  getreviewTypeId,
+  reqToSubmissionAPI
 }

@@ -14,9 +14,17 @@ const SonarService = require('./SonarService')
  * @returns {Promise}
  */
 const analyze = async (message) => {
-  await helper.downloadFile(message.payload.url, `${config.DOWNLOAD_DIR}/${message.payload.id}`)
-  logger.info(`Running sonar scan for Submission # ${message.payload.id}`)
-  await SonarService.runSonarAnalysis(message.payload.id, `${config.DOWNLOAD_DIR}/${message.payload.id}`)
+  const avScanTypeId = await helper.getreviewTypeId('AV SCAN')
+  // Process only AV Scan Reviews
+  if (message.payload.typeId !== avScanTypeId) {
+    logger.debug(`Ignoring Non AV Scan reviews from topic ${message.topic}`)
+    return false
+  }
+  const submission = await helper.reqToSubmissionAPI('GET',
+    `${config.SUBMISSION_API_URL}/submissions/${message.payload.submissionId}`, {})
+  await helper.downloadFile(submission.url, `${config.DOWNLOAD_DIR}/${submission.id}`)
+  logger.info(`Running sonar scan for Submission # ${submission.id}`)
+  await SonarService.runSonarAnalysis(submission.id, `${config.DOWNLOAD_DIR}/${submission.id}`)
   return true
 }
 
