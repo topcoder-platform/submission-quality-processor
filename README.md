@@ -36,7 +36,7 @@
 - In the console, write some message, one message per line:
 E.g.
 ```
-{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"submission", "id":"a12a4180-65aa-42ec-a945-5fd21dec0504", "url":"https://s3.amazonaws.com/tc-clean/toh-pt6.zip", "fileType": "zip", "isFileSubmission":false } }
+{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "68c5a381-c8ab-48af-92a7-7a869a4ee6c3", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "a34e1158-2c27-4d38-b079-5e5cca1bdcf7", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
 ```
 - optionally, use another terminal, go to same directory, start a consumer to view the messages:
 ```
@@ -193,10 +193,10 @@ npm start
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic submission.notification.create
 ``` 
 
-7. Write a message with following structure to the cosole. **NOTE: You would need to use the URL of zip file from your S3 bucket**
+7. Write a message with following structure to the console. 
 
 ```
-{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"submission", "id":"d0a16037-54ae-46bc-ae43-298b74683644", "url":"https://s3.amazonaws.com/tc-clean/testFile.zip", "fileType": "zip", "isFileSubmission":false } }
+{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "68c5a381-c8ab-48af-92a7-7a869a4ee6c3", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "a34e1158-2c27-4d38-b079-5e5cca1bdcf7", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
 ```
 
 Also, if the SUBMISSION_API_URL is set to `https://api.topcoder-dev.com/v5`, Please use one of the submissionIds already existing in Dev Database. I have listed few IDs below. Please use it in `id` field of the Kafka message. While creating review, Submission API will verify the existence of submission in the database, hence using these id's is necessary.
@@ -207,6 +207,8 @@ a34e1158-2c27-4d38-b079-5e5cca1bdcf7
 d0a16037-54ae-46bc-ae43-298b74683644
 3f5db3d9-f847-4733-a7ec-136875f1b73e
 ```
+
+**NOTE: You would need to PATCH `url` field of any of the above Submission IDs in Dev with url from your S3 bucket (Using Submission API)**
 
 8. You will be able to see in the console that message is processed
 
