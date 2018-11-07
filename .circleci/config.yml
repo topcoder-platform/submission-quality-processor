@@ -60,6 +60,7 @@ workflows:
             branches:
               only:
                 - develop-circleci
+                - develop
       - "build-prod":
           filters:
             branches:
