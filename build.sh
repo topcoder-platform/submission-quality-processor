@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eo pipefail
 UPDATE_CACHE=""
-echo "">api.env
+echo "">docker/api.env
 docker-compose -f docker/docker-compose.yml build submission-quality-processor
 docker create --name app submission-quality-processor:latest
 
