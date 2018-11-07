@@ -21,6 +21,7 @@ module.exports = {
   SUBMISSION_API_URL: process.env.SUBMISSION_API_URL || 'https://api.topcoder-dev.com/v5',
   SONARQUBE_SERVER_URL: process.env.SONARQUBE_SERVER_URL || 'http://localhost:9000',
   SONARQUBE_TOKEN: process.env.SONARQUBE_TOKEN,
+  SONARQUBE_ORGANIZATION: process.env.SONARQUBE_ORGANIZATION,
 
   // Relative path for Output directory
   DOWNLOAD_DIR: path.resolve(__dirname, '..', process.env.DOWNLOAD_DIR || 'downloads'),
