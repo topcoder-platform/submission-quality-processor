@@ -33,7 +33,7 @@ jobs:
           command: |
             git clone --branch master https://github.com/topcoder-platform/tc-deploy-scripts ../buildscript
             cp ./../buildscript/master_deply_v4.2.sh .
-            #./master_deply_v4.2.sh -d ECS -e DEV -t latest -s submission-quality-processor -i submission-quality-processor
+            ./master_deply_v4.2.sh -d ECS -e DEV -t latest -s submission-quality-processor -i submission-quality-processor
   # Build & Deploy against production backend
   "build-prod":
     <<: *defaults
