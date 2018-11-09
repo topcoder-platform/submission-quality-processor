@@ -24,41 +24,46 @@
   `bin/kafka-server-start.sh config/server.properties`
 - note that the zookeeper server is at localhost:2181, and Kafka server is at localhost:9092
 - use another terminal, go to same directory, create some topics:
-```  
+
+```bash
   bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic submission.notification.create
   bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic submission.notification.update
 ```
+
 - verify that the topics are created:
   `bin/kafka-topics.sh --list --zookeeper localhost:2181`,
   it should list out the created topics
 - run the producer and then write some message into the console to send to the topic `submission.notification.create`:
   `bin/kafka-console-producer.sh --broker-list localhost:9092 --topic submission.notification.create`
-- In the console, write some message, one message per line:
-E.g.
-```
+- In the console, write some message, one message per line. E.g:
+
+```bash
 { "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "68c5a381-c8ab-48af-92a7-7a869a4ee6c3", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "a34e1158-2c27-4d38-b079-5e5cca1bdcf7", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
 ```
+
 - optionally, use another terminal, go to same directory, start a consumer to view the messages:
-```
+
+```bash
   bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic submission.notification.create --from-beginning
 ```
+
 - writing/reading messages to/from other topics are similar
 
 ## Local Sonarqube Server setup
 
 Assuming you have already installed docker in your system, execute the below command
 
-```
+```bash
 docker pull sonarqube:6.7.5
 ```
 
 Please note that sonarqube in docker uses H2 which uses the same port as Kafka (9092). Hence while bringing up Sonarqube server, we need to map the port 9092 (Container port) to 9093 (Host port)
 
-```
+```bash
 docker run -d --name sonarqube -p 9000:9000 -p 9093:9092 sonarqube:6.7.5
 ```
 
-Once you execute the above command, Sonarqube server will be up and running in few seconds at http://localhost:9000. If you are using locally deployed Sonarqube server, SONARQUBE_SERVER_URL will be `http://localhost:9000` which is already set in config/default.js 
+Once you execute the above command, Sonarqube server will be up and running in few seconds at `http://localhost:9000`. If you are using locally deployed Sonarqube server, SONARQUBE_SERVER_URL will be `http://localhost:9000` which is already set in config/default.js 
 
 To run analysis in our application, We need to generate a token in Sonarqube server and use it while analyzing in Sonarqube Scanner CLI. Please follow the below steps to generate token
 
@@ -76,25 +81,7 @@ Assuming you are using Local Sonarqube server
 
 6. You need to save the generated token which should be saved in environment variable as `SONARQUBE_TOKEN`
 
-### Setting up Webhooks
-
-1. Find out device level public IP address of your machine by executing `ifconfig` command (For Linux). `ipconfig` for windows
-
-You will see some output like this
-```
-br-6280c84d0e2f Link encap:Ethernet  HWaddr 02:42:01:73:38:1b  
-          inet addr:172.19.0.1  Bcast:172.19.255.255  Mask:255.255.0.0
-```
-
-Choose one of the IP Address in Ethernet name. In the above case it is 172.19.0.1
-
-Webhook address to be used will be http://172.19,0.1:3000/scan/webhook
-
-2. Navigate to http://localhost:9000/admin/settings?category=webhooks
-
-3. Add name to your webhook and enter the URL found in the 1st step and save.
-
-4. Alternatively, use [ngrok](https://ngrok.com/) and set it up to listen to port 3000 (the default one)
+7. You need to setup webhooks next. Check out the deployment steps for the [Submission Quality Api](https://github.com/topcoder-platform/submission-quality-api)
 
 ## Sonarqube Scanner CLI Setup
 
@@ -108,15 +95,15 @@ Webhook address to be used will be http://172.19,0.1:3000/scan/webhook
 
 2. Depending on your Operating System, create AWS credentials file in the path listed below
 
-```
+```bash
 Linux, Unix, and macOS users: ~/.aws/credentials
 
 Windows users: C:\Users\USER_NAME\.aws\credentials
 ```
 
-3. credentials file should look like below
+3. Credentials file should look like below
 
-```
+```bash
 [default]
 aws_access_key_id = SOME_ACCESS_KEY_ID
 aws_secret_access_key = SOME_SECRET_ACCESS_KEY
@@ -155,13 +142,13 @@ The following parameters can be set in config files or in env variables:
 
 1. From the project root directory, run the following command to install the dependencies
 
-```
+```bash
 npm i
 ```
 
 2. To run linters if required
 
-```
+```bash
 npm run lint
 
 npm run lint:fix # To fix possible lint errors
@@ -171,7 +158,7 @@ npm run lint:fix # To fix possible lint errors
 
 4. Start the processor and express server
 
-```
+```bash
 npm start
 ```
 
@@ -189,19 +176,19 @@ npm start
 
 6. Attach to the topic `submission.notification.create` using Kafka console producer
 
-```
+```bash
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic submission.notification.create
-``` 
+```
 
 7. Write a message with following structure to the console. 
 
-```
+```bash
 { "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "68c5a381-c8ab-48af-92a7-7a869a4ee6c3", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "a34e1158-2c27-4d38-b079-5e5cca1bdcf7", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
 ```
 
 Also, if the SUBMISSION_API_URL is set to `https://api.topcoder-dev.com/v5`, Please use one of the submissionIds already existing in Dev Database. I have listed few IDs below. Please use it in `id` field of the Kafka message. While creating review, Submission API will verify the existence of submission in the database, hence using these id's is necessary.
 
-```
+```bash
 a34e1158-2c27-4d38-b079-5e5cca1bdcf7
 7620a69c-0176-4715-815b-73b851c80edb
 d0a16037-54ae-46bc-ae43-298b74683644
@@ -214,10 +201,6 @@ d0a16037-54ae-46bc-ae43-298b74683644
 
 9. Analysis results could be viewed at Sonar Qube server as well. Submission ID will be the project name.
 
-10. To verify that review has been created properly, Assuming you are using Topcoder Dev Submission API as `SUBMISSION_API_URL`, Login to https://lauscher.topcoder-dev.com/ with `TonyJ:appirio123`. Check the data posted in topic `submission.notification.create`
-
-11. You will be able to see the review payload
-
 ## Running unit tests
 
 To run tests, following Environment variables need to be set up
@@ -227,7 +210,7 @@ To run tests, following Environment variables need to be set up
 
 To run unit tests
 
-```
+```bash
 npm run test
 ```
 
@@ -243,7 +226,7 @@ To run the Submission quality processor using docker, follow the below steps
 
 4. Once that is done, run the following command
 
-```
+```bash
 docker-compose up
 ```
 
