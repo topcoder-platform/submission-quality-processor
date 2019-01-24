@@ -8,6 +8,7 @@ module.exports = {
   LOG_LEVEL: process.env.LOG_LEVEL || 'debug',
   PORT: process.env.PORT || 3000,
 
+  KAFKA_GROUP_ID: process.env.KAFKA_GROUP_ID || 'submission-quality-processor-group',
   KAFKA_URL: process.env.KAFKA_URL || 'localhost:9092',
   // below two params are used for secure Kafka connection, they are optional
   // for the local Kafka, they are not needed
