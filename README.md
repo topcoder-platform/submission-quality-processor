@@ -122,7 +122,6 @@ The following parameters can be set in config files or in env variables:
 
 - LOG_LEVEL: the log level
 - PORT: the server port
-- KAFKA_GROUP_ID: group id of the consumer; default value: 'submission-quality-processor-group'
 - KAFKA_URL: comma separated Kafka hosts
 - KAFKA_CLIENT_CERT: Kafka connection certificate, optional;
     if not provided, then SSL connection is not used, direct insecure connection is used;
