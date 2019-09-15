@@ -10,23 +10,19 @@
     "test": "mocha test/*.test.js --require test/prepare.js --exit"
   },
   "dependencies": {
-    "amazon-s3-uri": "0.0.3",
-    "aws-sdk": "^2.337.0",
+    "@topcoder-platform/topcoder-submission-api-wrapper": "^1.1.0",
     "bluebird": "^3.5.1",
     "config": "^1.21.0",
     "fs-extra": "^7.0.0",
     "get-parameter-names": "^0.3.0",
     "joi": "^14.0.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "no-kafka": "^3.2.4",
-    "superagent": "^3.8.3",
-    "tc-core-library-js": "appirio-tech/tc-core-library-js.git#v2.6",
     "topcoder-healthcheck-dropin": "^1.0.3",
     "unzipper": "^0.9.4",
     "winston": "^3.1.0"
   },
   "devDependencies": {
-    "aws-sdk-mock": "^4.2.0",
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
     "mocha": "^5.2.0",

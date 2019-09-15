@@ -14,15 +14,18 @@ const SonarService = require('./SonarService')
  * @returns {Promise}
  */
 const analyze = async (message) => {
+  const submissionApiClient = helper.getSubmissionApiWrapperClient()
   const avScanTypeId = await helper.getreviewTypeId('AV SCAN')
   // Process only AV Scan Reviews
   if (message.payload.typeId !== avScanTypeId) {
     logger.debug(`Ignoring Non AV Scan reviews from topic ${message.topic}`)
     return false
   }
-  const submission = await helper.reqToSubmissionAPI('GET',
-    `${config.SUBMISSION_API_URL}/submissions/${message.payload.submissionId}`, {})
-  await helper.downloadFile(submission.url, `${config.DOWNLOAD_DIR}/${submission.id}`)
+
+  const submission = await submissionApiClient.getSubmission(message.payload.submissionId)
+
+  await helper.downloadFile(submission.body.id, `${config.DOWNLOAD_DIR}/${submission.body.id}`)
+
   logger.info(`Running sonar scan for Submission # ${submission.id}`)
   await SonarService.runSonarAnalysis(submission.id, `${config.DOWNLOAD_DIR}/${submission.id}`)
   return true

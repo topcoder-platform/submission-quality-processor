@@ -25,7 +25,6 @@ module.exports = {
 
   // Relative path for Output directory
   DOWNLOAD_DIR: path.resolve(__dirname, '..', process.env.DOWNLOAD_DIR || 'downloads'),
-  AWS_REGION: process.env.AWS_REGION || 'us-east-1',
 
   AUTH0_URL: process.env.AUTH0_URL, // Auth0 credentials for Leaderboard Service
   AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE,
