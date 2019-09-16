@@ -37,7 +37,7 @@
 - In the console, write some message, one message per line. E.g:
 
 ```bash
-{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "68c5a381-c8ab-48af-92a7-7a869a4ee6c3", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "a34e1158-2c27-4d38-b079-5e5cca1bdcf7", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
+{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "6da98d0f-e663-4539-8507-cd6c9e0e56d8", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "2561b61b-7f73-48a3-8a01-0891ad503c52", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
 ```
 
 - optionally, use another terminal, go to same directory, start a consumer to view the messages:
@@ -62,7 +62,7 @@ Please note that sonarqube in docker uses H2 which uses the same port as Kafka (
 docker run -d --name sonarqube -p 9000:9000 -p 9093:9092 sonarqube:6.7.5
 ```
 
-Once you execute the above command, Sonarqube server will be up and running in few seconds at `http://localhost:9000`. If you are using locally deployed Sonarqube server, SONARQUBE_SERVER_URL will be `http://localhost:9000` which is already set in config/default.js 
+Once you execute the above command, Sonarqube server will be up and running in few seconds at `http://localhost:9000`. If you are using locally deployed Sonarqube server, SONARQUBE_SERVER_URL will be `http://localhost:9000` which is already set in config/default.js
 
 To run analysis in our application, We need to generate a token in Sonarqube server and use it while analyzing in Sonarqube Scanner CLI. Please follow the below steps to generate token
 
@@ -152,22 +152,17 @@ npm start
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic submission.notification.create
 ```
 
-7. Write a message with following structure to the console. 
+7. Write a message with following structure to the console.
 
 ```bash
-{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{"score":100,"updatedBy":"maE2maBSv9fRVHjSlC31LFZSq6VhhZqC@clients","reviewerId":"9c5f50f2-1f8d-4ebb-83a5-27c468d17dbb","submissionId":"c96ad6bb-a047-4b14-b54d-8af198b948a2","createdBy":"maE2maBSv9fRVHjSlC31LFZSq6VhhZqC@clients","created":"2019-09-10T08:38:58.760Z","scoreCardId":30001850,"typeId":"6da98d0f-e663-4539-8507-cd6c9e0e56d8","id":"0ad3f78f-512b-468e-a95d-2f6d4b788a81","updated":"2019-09-10T08:38:58.760Z","status":"completed", "resource": "review"} }
+{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "6da98d0f-e663-4539-8507-cd6c9e0e56d8", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "2561b61b-7f73-48a3-8a01-0891ad503c52", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
 ```
 
 Also, if the SUBMISSION_API_URL is set to `https://api.topcoder-dev.com/v5`, Please use one of the submissionIds already existing in Dev Database. I have listed few IDs below. Please use it in `id` field of the Kafka message. While creating review, Submission API will verify the existence of submission in the database, hence using these id's is necessary.
 
 ```bash
-a34e1158-2c27-4d38-b079-5e5cca1bdcf7
-7620a69c-0176-4715-815b-73b851c80edb
-d0a16037-54ae-46bc-ae43-298b74683644
-3f5db3d9-f847-4733-a7ec-136875f1b73e
+2561b61b-7f73-48a3-8a01-0891ad503c52
 ```
-
-**NOTE: You would need to PATCH `url` field of any of the above Submission IDs in Dev with url from your S3 bucket (Using Submission API)**
 
 8. You will be able to see in the console that message is processed
 
