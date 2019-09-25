@@ -6,7 +6,6 @@
 - Kafka (v2)
 - Sonarqube Server
 - Sonarqube CLI Scanner
-- Active AWS Account
 - Docker for local deployment of Sonarqube Server
 
 ## Setting up the pre-requisities
@@ -38,7 +37,7 @@
 - In the console, write some message, one message per line. E.g:
 
 ```bash
-{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "68c5a381-c8ab-48af-92a7-7a869a4ee6c3", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "a34e1158-2c27-4d38-b079-5e5cca1bdcf7", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
+{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "6da98d0f-e663-4539-8507-cd6c9e0e56d8", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "2561b61b-7f73-48a3-8a01-0891ad503c52", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
 ```
 
 - optionally, use another terminal, go to same directory, start a consumer to view the messages:
@@ -63,7 +62,7 @@ Please note that sonarqube in docker uses H2 which uses the same port as Kafka (
 docker run -d --name sonarqube -p 9000:9000 -p 9093:9092 sonarqube:6.7.5
 ```
 
-Once you execute the above command, Sonarqube server will be up and running in few seconds at `http://localhost:9000`. If you are using locally deployed Sonarqube server, SONARQUBE_SERVER_URL will be `http://localhost:9000` which is already set in config/default.js 
+Once you execute the above command, Sonarqube server will be up and running in few seconds at `http://localhost:9000`. If you are using locally deployed Sonarqube server, SONARQUBE_SERVER_URL will be `http://localhost:9000` which is already set in config/default.js
 
 To run analysis in our application, We need to generate a token in Sonarqube server and use it while analyzing in Sonarqube Scanner CLI. Please follow the below steps to generate token
 
@@ -89,32 +88,6 @@ Assuming you are using Local Sonarqube server
 
 - sonar-scanner should be available in your PATH
 
-## AWS related set up
-
-1. Download your AWS Credentials from AWS Console. Refer [AWS Documentation](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/getting-your-credentials.html)
-
-2. Depending on your Operating System, create AWS credentials file in the path listed below
-
-```bash
-Linux, Unix, and macOS users: ~/.aws/credentials
-
-Windows users: C:\Users\USER_NAME\.aws\credentials
-```
-
-3. Credentials file should look like below
-
-```bash
-[default]
-aws_access_key_id = SOME_ACCESS_KEY_ID
-aws_secret_access_key = SOME_SECRET_ACCESS_KEY
-```
-
-4. Credentials can be set in environment variables too. Refer - https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/loading-node-credentials-environment.html
-
-5. Create a S3 bucket from AWS Console
-
-6. Upload few code related zip files to the bucket for testing the application
-
 ## Configuration
 
 Configuration for the application is at `config/default.js`.
@@ -135,7 +108,6 @@ The following parameters can be set in config files or in env variables:
 - SONARQUBE_SERVER_URL: Sonarqube Server URL
 - SONARQUBE_TOKEN: Token generated from Sonarqube Server
 - DOWNLOAD_DIR: Download directory stores the files downloaded from S3. Path specified should be relative to the project directory
-- AWS_REGION: AWS Region used for creating buckets. Default value is 'us-east-1'
 - All variables starting with prefix `AUTH0` corresponds to Auth0 related credentials
 
 ## Local deployment
@@ -180,22 +152,17 @@ npm start
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic submission.notification.create
 ```
 
-7. Write a message with following structure to the console. 
+7. Write a message with following structure to the console.
 
 ```bash
-{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "68c5a381-c8ab-48af-92a7-7a869a4ee6c3", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "a34e1158-2c27-4d38-b079-5e5cca1bdcf7", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
+{ "topic":"submission.notification.create", "originator":"submission-api", "timestamp":"2018-08-06T15:46:05.575Z", "mime-type":"application/json", "payload":{ "resource":"review", "id": "d34d4180-65aa-42ec-a945-5fd21dec0502", "score": 100, "typeId": "6da98d0f-e663-4539-8507-cd6c9e0e56d8", "reviewerId": "c23a4180-65aa-42ec-a945-5fd21dec0503", "scoreCardId": "b25a4180-65aa-42ec-a945-5fd21dec0503", "submissionId": "2561b61b-7f73-48a3-8a01-0891ad503c52", "created": "2018-05-20T07:00:30.123Z", "updated": "2018-06-01T07:36:28.178Z", "createdBy": "admin", "updatedBy": "admin" } }
 ```
 
 Also, if the SUBMISSION_API_URL is set to `https://api.topcoder-dev.com/v5`, Please use one of the submissionIds already existing in Dev Database. I have listed few IDs below. Please use it in `id` field of the Kafka message. While creating review, Submission API will verify the existence of submission in the database, hence using these id's is necessary.
 
 ```bash
-a34e1158-2c27-4d38-b079-5e5cca1bdcf7
-7620a69c-0176-4715-815b-73b851c80edb
-d0a16037-54ae-46bc-ae43-298b74683644
-3f5db3d9-f847-4733-a7ec-136875f1b73e
+2561b61b-7f73-48a3-8a01-0891ad503c52
 ```
-
-**NOTE: You would need to PATCH `url` field of any of the above Submission IDs in Dev with url from your S3 bucket (Using Submission API)**
 
 8. You will be able to see in the console that message is processed
 
@@ -222,18 +189,12 @@ To run the Submission quality processor using docker, follow the below steps
 
 2. Rename the file `sample.api.env` to `api.env`
 
-3. Set the required AWS, Auth0, Sonarqube credentials and Submission API URL in the file `api.env`
+3. Set the required Auth0, Sonarqube credentials and Submission API URL in the file `api.env`
 
 4. Once that is done, run the following command
 
-```bash
-docker-compose up
-```
+    ```bash
+    docker-compose up
+    ```
 
 5. When you are running the application for the first time, It will take some time initially to download the image and install the dependencies
-
-**Note:**
-
-3 security vulnerabilities reported during npm install is from the existing Topcoder package `tc-core-library-js` which is necessary to generate M2M tokens.
-
-https://github.com/appirio-tech/tc-core-library-js/blob/master/package.json

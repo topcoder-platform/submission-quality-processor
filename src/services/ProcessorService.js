@@ -20,11 +20,12 @@ const analyze = async (message) => {
     logger.debug(`Ignoring Non AV Scan reviews from topic ${message.topic}`)
     return false
   }
-  const submission = await helper.reqToSubmissionAPI('GET',
-    `${config.SUBMISSION_API_URL}/submissions/${message.payload.submissionId}`, {})
-  await helper.downloadFile(submission.url, `${config.DOWNLOAD_DIR}/${submission.id}`)
-  logger.info(`Running sonar scan for Submission # ${submission.id}`)
-  await SonarService.runSonarAnalysis(submission.id, `${config.DOWNLOAD_DIR}/${submission.id}`)
+
+  const submissionId = message.payload.submissionId
+  await helper.downloadFile(submissionId, `${config.DOWNLOAD_DIR}/${submissionId}`)
+
+  logger.info(`Running sonar scan for Submission # ${submissionId}`)
+  await SonarService.runSonarAnalysis(submissionId, `${config.DOWNLOAD_DIR}/${submissionId}`)
   return true
 }
 
