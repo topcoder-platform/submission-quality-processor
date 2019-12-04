@@ -114,9 +114,9 @@ The following parameters can be set in config files or in env variables:
 
 1. From the project root directory, run the following command to install the dependencies
 
-```bash
-npm i
-```
+    ```bash
+    npm i
+    ```
 
 2. To run linters if required
 
