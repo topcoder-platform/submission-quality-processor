@@ -18,6 +18,8 @@ module.exports = {
   CREATE_DATA_TOPIC: process.env.CREATE_DATA_TOPIC || 'submission.notification.create',
   UPDATE_DATA_TOPIC: process.env.UPDATE_DATA_TOPIC || 'submission.notification.update',
 
+  AV_SCAN_NAME: process.env.AV_SCAN_NAME || 'Virus Scan',
+
   SUBMISSION_API_URL: process.env.SUBMISSION_API_URL || 'https://api.topcoder-dev.com/v5',
   SONARQUBE_SERVER_URL: process.env.SONARQUBE_SERVER_URL || 'http://localhost:9000',
   SONARQUBE_TOKEN: process.env.SONARQUBE_TOKEN,
