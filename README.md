@@ -120,11 +120,11 @@ The following parameters can be set in config files or in env variables:
 
 2. To run linters if required
 
-```bash
-npm run lint
+    ```bash
+    npm run lint
 
-npm run lint:fix # To fix possible lint errors
-```
+    npm run lint:fix # To fix possible lint errors
+    ```
 
 3. Ensure that environment variables are set as required
 
