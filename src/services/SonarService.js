@@ -17,8 +17,8 @@ const runSonarAnalysis = async (submissionId, scanDir) => {
     `sonar-scanner -Dsonar.projectKey=${submissionId} \
       -Dsonar.sources=${scanDir} \
       -Dsonar.host.url=${config.SONARQUBE_SERVER_URL} \
-      -Dsonar.login=${config.SONARQUBE_TOKEN} \
-      -Dsonar.organization=${config.SONARQUBE_ORGANIZATION}`
+      -Dsonar.login=${config.SONARQUBE_TOKEN}`
+    // -Dsonar.organization=${config.SONARQUBE_ORGANIZATION}`
   )
 }
 
