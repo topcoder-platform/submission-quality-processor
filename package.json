@@ -10,7 +10,7 @@
     "test": "mocha test/*.test.js --require test/prepare.js --exit"
   },
   "dependencies": {
-    "@topcoder-platform/topcoder-submission-api-wrapper": "^1.1.0",
+    "@topcoder-platform/topcoder-submission-api-wrapper": "^1.2.0",
     "bluebird": "^3.5.1",
     "config": "^1.21.0",
     "fs-extra": "^7.0.0",
