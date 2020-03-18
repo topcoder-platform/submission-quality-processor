@@ -8,35 +8,12 @@ const createMessage = {
   timestamp: '2018-02-03T00:00:00',
   'mime-type': 'application/json',
   payload: {
-    resource: 'submission',
-    id: 'd24d4180-65aa-42ec-a945-5fd21dec0516',
-    url: 'https://s3.amazonaws.com/tc-clean/testFile.zip'
-  }
-}
-
-const testWebHook = {
-  serverUrl: 'http://localhost:9000',
-  taskId: 'AWaIkO3UJnZ4bDlnlrak',
-  status: 'SUCCESS',
-  project: {
-    key: 'a34e1158-2c27-4d38-b079-5e5cca1bdcf7',
-    name: 'a34e1158-2c27-4d38-b079-5e5cca1bdcf7'
-  },
-  branch: {
-    name: 'master',
-    type: 'LONG',
-    isMain: true
-  },
-  qualityGate: {
-    name: 'SonarQube way',
-    status: 'OK'
-  },
-  properties: {
-
+    resource: 'review',
+    submissionId: '2561b61b-7f73-48a3-8a01-0891ad503c52',
+    typeId: '68c5a381-c8ab-48af-92a7-7a869a4ee6c3'
   }
 }
 
 module.exports = {
-  createMessage,
-  testWebHook
+  createMessage
 }
