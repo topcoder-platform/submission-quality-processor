@@ -24,7 +24,6 @@ const analyze = async (message) => {
   const submissionId = message.payload.submissionId
   await helper.downloadFile(submissionId, `${config.DOWNLOAD_DIR}/${submissionId}`)
 
-  logger.info(`Running sonar scan for Submission # ${submissionId}`)
   await SonarService.runSonarAnalysis(submissionId, `${config.DOWNLOAD_DIR}/${submissionId}`)
   return true
 }

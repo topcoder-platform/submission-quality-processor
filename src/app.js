@@ -3,6 +3,8 @@
  */
 
 require('./bootstrap')
+require('dotenv').config()
+
 const config = require('config')
 const _ = require('lodash')
 const logger = require('./common/logger')

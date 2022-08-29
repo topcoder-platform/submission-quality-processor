@@ -23,10 +23,17 @@ module.exports = {
   SUBMISSION_API_URL: process.env.SUBMISSION_API_URL || 'https://api.topcoder-dev.com/v5',
   SONARQUBE_SERVER_URL: process.env.SONARQUBE_SERVER_URL || 'http://localhost:9000',
   SONARQUBE_TOKEN: process.env.SONARQUBE_TOKEN,
-  SONARQUBE_ORGANIZATION: process.env.SONARQUBE_ORGANIZATION,
+  // max time in seconds to wait for the quality gate report to be processed
+  SONARQUBE_QUALITYGATE_TIMEOUT: process.env.SONARQUBE_QUALITYGATE_TIMEOUT || 300,
 
   // Relative path for Output directory
   DOWNLOAD_DIR: path.resolve(__dirname, '..', process.env.DOWNLOAD_DIR || 'downloads'),
+
+  // review type for the review to be created
+  REVIEW_TYPE_NAME: process.env.REVIEW_TYPE_NAME || 'SonarQube Scan',
+
+  // the name of the quality gate to be created and used
+  QUALITY_GATE: process.env.QUALITY_GATE || 'TC_OVERALL_CODE_QUALITY_GATE',
 
   AUTH0_URL: process.env.AUTH0_URL, // Auth0 credentials for Leaderboard Service
   AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE,
