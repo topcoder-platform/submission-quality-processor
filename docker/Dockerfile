@@ -7,6 +7,7 @@ RUN apt-get update -y \
     && apt-get install curl gnupg git python-dev build-essential -y --no-install-recommends \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash \
     && apt-get install nodejs -y --no-install-recommends \
+    && apt-get install npm -y \
     && apt-get install unzip -y
 
 # Install Sonarqube CLI
