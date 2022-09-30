@@ -21,8 +21,8 @@ module.exports = {
   AV_SCAN_NAME: process.env.AV_SCAN_NAME || 'Virus Scan',
 
   SUBMISSION_API_URL: process.env.SUBMISSION_API_URL || 'https://api.topcoder-dev.com/v5',
-  SONARQUBE_SERVER_URL: process.env.SONARQUBE_SERVER_URL || 'http://localhost:9000',
-  SONARQUBE_TOKEN: process.env.SONARQUBE_TOKEN,
+  SONARQUBE_SERVER_URL: process.env.SONARQUBE_SERVER_URL || 'https://sonarqube.topcoder-dev.com',
+  SONARQUBE_TOKEN: process.env.SONARQUBE_TOKEN || sqp_12c12d8e98d749c607b2f9d1eb75b899cb4c1270,
   // max time in seconds to wait for the quality gate report to be processed
   SONARQUBE_QUALITYGATE_TIMEOUT: process.env.SONARQUBE_QUALITYGATE_TIMEOUT || 300,
 
