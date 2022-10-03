@@ -22,7 +22,7 @@ module.exports = {
 
   SUBMISSION_API_URL: process.env.SUBMISSION_API_URL || 'https://api.topcoder-dev.com/v5',
   SONARQUBE_SERVER_URL: process.env.SONARQUBE_SERVER_URL || 'https://sonarqube.topcoder-dev.com',
-  SONARQUBE_TOKEN: process.env.SONARQUBE_TOKEN || sqp_12c12d8e98d749c607b2f9d1eb75b899cb4c1270,
+  SONARQUBE_TOKEN: process.env.SONARQUBE_TOKEN || 'squ_4e25093c0ab7fd7551a5193a7c0c4aa39c1fa849',
   // max time in seconds to wait for the quality gate report to be processed
   SONARQUBE_QUALITYGATE_TIMEOUT: process.env.SONARQUBE_QUALITYGATE_TIMEOUT || 300,
 
