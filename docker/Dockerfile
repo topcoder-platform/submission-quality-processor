@@ -14,10 +14,10 @@ RUN apt-get update -y \
 
 WORKDIR /opt
 
-RUN curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.2.0.1227-linux.zip
+RUN curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
 RUN unzip sonarscanner.zip
 RUN rm sonarscanner.zip
-RUN mv sonar-scanner-3.2.0.1227-linux sonar-scanner
+RUN mv sonar-scanner-4.7.0.2747-linux sonar-scanner
 
 ENV SONAR_RUNNER_HOME=/opt/sonar-scanner
 ENV PATH $PATH:/opt/sonar-scanner/bin
