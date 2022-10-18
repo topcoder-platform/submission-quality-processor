@@ -16,7 +16,7 @@ const SonarService = require('./SonarService')
 const analyze = async (message) => {
   const avScanTypeId = await helper.getreviewTypeId(config.AV_SCAN_NAME)
   // Process only AV Scan Reviews
-  if (message.payload.typeId !== "2929bc33-8f58-4011-8e49-9e3a10499e97") {
+  if (message.payload.typeId !== avScanTypeId) {
     logger.debug(`Ignoring Non AV Scan reviews from topic ${message.topic}`)
     return false
   }
