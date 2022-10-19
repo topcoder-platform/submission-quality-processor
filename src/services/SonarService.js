@@ -56,7 +56,9 @@ async function processScanResults (body, submissionId) {
   const qualityGatePassed = _.get(body, 'projectStatus.status') === 'OK'
 
   let payload = {
-    score: qualityGatePassed ? 100 : 0,
+    //score: qualityGatePassed ? 100 : 0,
+    //Note that, for data gathering, we are temporarily going to pass *all* submissions
+    score:100,
     reviewerId: uuid(),
     submissionId,
     scoreCardId: randomNumber
